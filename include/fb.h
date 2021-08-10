@@ -2,8 +2,8 @@
  * @Author: Enos Ji
  * @Date: 2021-08-09 20:51:10
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-09 21:03:18
- * @FilePath: \test_project\include\fb.h
+ * @LastEditTime: 2021-08-10 19:31:55
+ * @FilePath: \image\include\fb.h
  * @Description: fb 头文件
  */
 #ifndef __FB_H__
@@ -28,7 +28,16 @@
 // 函数声明
 int fb_open(void);
 void fb_close(void);
+#if 0
 void fb_draw_back(unsigned int width, unsigned int height, unsigned int color);
 void fb_draw_line(unsigned int color);
+void fb_draw_pic(void);
+void fb_draw_pic1(void);
+void fb_draw_pic2(unsigned int x, unsigned int y);
+void fb_draw_pic3(unsigned int x, unsigned int y);
+#endif
+
+void fb_draw(unsigned int x, unsigned int y,  pic_info *info);
+
 
 #endif

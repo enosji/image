@@ -9,4 +9,7 @@
 
 #!/bin/bash
 
-./image_player
+make
+make cp
+
+#./image_player

@@ -40,7 +40,7 @@ all :
 	$(CC) $(LDFLAGS) -o $(TARGET) built-in.o
 
 cp:
-	cp ../test_project ~/x210/rootfs/rootfs/root/ -rf
+	cp ../image ~/x210/rootfs/rootfs/root/ -rf
 
 clean:
 	rm -f $(shell find -name "*.o")
