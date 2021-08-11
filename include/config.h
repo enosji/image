@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-10 18:40:24
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-11 15:35:53
+ * @LastEditTime: 2021-08-11 21:55:30
  * @FilePath: \image\include\config.h
  * @Description: 公用的头文件
  */
@@ -12,6 +12,11 @@
 //规定最大解析图片的大小为1920*1080, BPP最多24
 #define BMP_MAX_RESOLUTON       (1920 * 1080)
 #define BMP_BUF_SIZE            (BMP_MAX_RESOLUTON * 3)
+
+//规定最多支持的图片数量
+#define MAX_IMAGE_CNT           100
+
+
 
 #define DEBUG           //打开调试开关
 //#undef DEBUG
@@ -45,5 +50,13 @@ extern unsigned char rgb_buf[BMP_BUF_SIZE];
 
 int display_jpeg(char * pathname);
 int display_png(char * pathname);
+
+
+int is_jpeg(char *path);
+int is_bmp(char *path);
+int is_png(char *path);
+
+int scan_image(char *path);
+void show_images(void);
 
 #endif

@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-09 15:32:46
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-11 19:02:57
+ * @LastEditTime: 2021-08-11 21:56:05
  * @FilePath: \image\main.c
  * @Description: image_player 主函数
  */
@@ -11,7 +11,6 @@
 #include <unistd.h>
 
 #include <config.h>
-
 
 unsigned char rgb_buf[BMP_BUF_SIZE];
 
@@ -29,6 +28,7 @@ int main(int argc, char const *argv[])
         printf("fb_open error\n");
         return -1;
     }
+    scan_image("./image");
 /*
     //bmp 测试程序
     ret = display_bmp("./bmp/1.bmp");
@@ -44,15 +44,16 @@ int main(int argc, char const *argv[])
         fprintf(stderr, "show jpeg error\n");
         return -1;
     }
-*/
-    ret = display_png("./png/1.png");
+
+    ret = display_png("./image/png/1.png");
     if(ret < 0)
     {
         fprintf(stderr, "show png error\n");
         return -1;
     }
-
-
+*/
+    while(1)
+        show_images();
 
     fb_close();
 

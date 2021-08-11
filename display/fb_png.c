@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-11 15:26:08
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-11 19:10:33
+ * @LastEditTime: 2021-08-11 21:21:10
  * @FilePath: \image\display\fb_png.c
  * @Description: 解析png格式的图片
  */
@@ -23,7 +23,7 @@
  * @return {*} ：判断是返回0，不是返回1，错误返回-1
  * @author: Enos Ji
  */
-static int is_png(char *path)
+int is_png(char *path)
 {
     FILE *fp = NULL;
     char buf[PNG_BYTES_TO_CHECK];
@@ -124,8 +124,6 @@ static int png_analyze(pic_info *pPic)
     /* 获取所有的图像数据 */
     row_pointers = png_get_rows(png_ptr, info_ptr);
  
-
- 
 	/* 只处理RGB24位真彩色格式的图片 */
     if(PNG_COLOR_TYPE_RGB == color_type)
     {
@@ -143,7 +141,6 @@ static int png_analyze(pic_info *pPic)
         }
         
     }   
-
 
     /* 清理图像，释放内存 */
     png_destroy_read_struct(&png_ptr, &info_ptr, 0);
@@ -165,7 +162,6 @@ int display_png(char * pathname)
     pic_info pPic;
     pPic.pathname = pathname;       //指针变量可以直接赋值
     pPic.pdata = rgb_buf;
-    
     
     //检查图片格式
     ret = is_png(pathname);

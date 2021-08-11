@@ -32,6 +32,7 @@ obj-y += main.o
 
 #添加顶层目录里的子目录，目录名后面加斜杠
 obj-y += display/ 
+obj-y += image_mange/
 #obj-y += include/
 
 

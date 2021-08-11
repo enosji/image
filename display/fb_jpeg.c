@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-11 10:57:55
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-11 19:01:54
+ * @LastEditTime: 2021-08-11 21:21:13
  * @FilePath: \image\display\fb_jpeg.c
  * @Description: 解码jpeg格式图片，调用fb.c函数显示图片
  */
@@ -22,7 +22,7 @@
  * @return {*}：判断是返回0，不是返回1，错误返回-1
  * @author: Enos Ji
  */
-static int is_jpeg(char *path)
+int is_jpeg(char *path)
 {
     FILE *ffd = NULL;
     char buf[2] = {0};

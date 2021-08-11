@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-10 14:35:33
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-11 19:02:26
+ * @LastEditTime: 2021-08-11 21:21:12
  * @FilePath: \image\display\fb_bmp.c
  * @Description: 解析BMP格式图片
  */
@@ -25,7 +25,7 @@
  * @return {*}：是返回0，不是返回-1
  * @author: Enos Ji
  */
-static int is_bmp(char *path)
+int is_bmp(char *path)
 {
     unsigned char buf[2] = {0};
     int fd = -1;
