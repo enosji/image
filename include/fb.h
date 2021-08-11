@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-09 20:51:10
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-10 19:31:55
+ * @LastEditTime: 2021-08-11 12:48:11
  * @FilePath: \image\include\fb.h
  * @Description: fb 头文件
  */
@@ -36,8 +36,10 @@ void fb_draw_pic1(void);
 void fb_draw_pic2(unsigned int x, unsigned int y);
 void fb_draw_pic3(unsigned int x, unsigned int y);
 #endif
-
+//bmp格式显示
 void fb_draw(unsigned int x, unsigned int y,  pic_info *info);
+//jpeg格式显示
+void fb_draw2(unsigned int x, unsigned int y,  pic_info *info);
 
 
 #endif

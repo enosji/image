@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-10 14:35:33
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-10 19:55:13
+ * @LastEditTime: 2021-08-11 19:02:26
  * @FilePath: \image\display\fb_bmp.c
  * @Description: 解析BMP格式图片
  */
@@ -16,16 +16,8 @@
 #include <sys/mman.h>
 
 #include <config.h>
-#include <bmp.h>
-#include <fb.h>
 
 
-//规定最大解析图片的大小为1920*1080, BPP最多24
-#define BMP_MAX_RESOLUTON       (1920 * 1080)
-#define BMP_BUF_SIZE            (BMP_MAX_RESOLUTON * 3)
-
-
-unsigned char bmp_buf[BMP_BUF_SIZE];
 
 /**
  * @description: 判断这张图片是不是bmp图片
@@ -79,19 +71,12 @@ close:
  * @return {int}: 错误返回-1，解析正确返回0
  * @author: Enos Ji
  */
-int bmp_analyze(pic_info *pPic)
+static int bmp_analyze(pic_info *pPic)
 {
     t_bmp_file_header fHeader;
     t_bmp_info_hearder info;
     long len;
-    int fd = -1, ret = -1;
-
-    ret = is_bmp(pPic->pathname);
-    if(ret < 0)
-    {
-        fprintf(stderr, "the picture is not a bmp\n");
-        return -1;
-    }
+    int fd = -1;
 
     //打开图片
     fd = open(pPic->pathname, O_RDONLY);
@@ -120,13 +105,49 @@ int bmp_analyze(pic_info *pPic)
     //读取图片有效信息，从第fHeader.bf_off_Bits字节处开始读取,读取info.bi_width * info.bi_height * info.bi_bit_count/3个字节
     lseek(fd, fHeader.bf_off_Bits, SEEK_SET);
     len = info.bi_width * info.bi_height * info.bi_bit_count / 3;
-    read(fd, bmp_buf, len);
+    read(fd, rgb_buf, len);
 
-    pPic->pdata = bmp_buf;
+    
 
-    //把内容放到fb中显示
-    fb_draw(0, 0, pPic);
+    
     
     close(fd);
     return 0;
+}
+
+/**
+ * @description: 对外封装的解码函数
+ * @param {char *} pathname ： 只需要穿路径
+ * @return {*}
+ * @author: Enos Ji
+ */
+int display_bmp(char * pathname)
+{
+    int ret = 0;
+    pic_info pPic;
+    pPic.pathname = pathname;       //指针变量可以直接赋值
+    pPic.pdata = rgb_buf;
+
+    //判断图片格式
+    ret = is_bmp(pathname);
+    if(ret < 0)
+    {
+        fprintf(stderr, "the picture is not a bmp\n");
+        return -1;
+    }
+
+    //图片的解析
+    ret = bmp_analyze(&pPic);
+    if(ret < 0)
+    {
+        return -1;
+    }
+
+   //把内容放到fb中显示
+    fb_draw(0, 0, &pPic);
+
+
+    return 0;
+
+
 }

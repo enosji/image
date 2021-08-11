@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-09 15:50:51
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-10 19:36:44
+ * @LastEditTime: 2021-08-11 13:19:07
  * @FilePath: \image\display\fb.c
  * @Description: framebuffer的基本实现，包括fb的打开、ioctl的获取信息，测试
  */
@@ -16,8 +16,7 @@
 #include <sys/mman.h>
 
 #include <config.h>
-#include <bmp.h>
-#include <fb.h>
+
 
 //#include "1024600.h"
 //#include "3232.h"
@@ -261,7 +260,7 @@ void fb_draw_pic3(unsigned int x, unsigned int y)
 
 
 /**
- * @description: 图片解析后显示调用的函数
+ * @description: bmp图片解析后显示调用的函数
  * @param {unsigned int} x：行偏移
  * @param {unsigned int} y：列偏移
  * @param {unsigned char *} pPic：像素数据
@@ -305,6 +304,56 @@ void fb_draw(unsigned int x, unsigned int y,  pic_info *info)
 			*(p + cnt) = ((pdata[a] << 0) | (pdata[a + 1] << 8) | (pdata[a + 2] << 16));
 			
 			a -= 3;
+
+		}
+	}
+}
+
+/**
+ * @description: jpeg图片解析后显示调用的函数
+ * @param {unsigned int} x：行偏移
+ * @param {unsigned int} y：列偏移
+ * @param {unsigned char *} pPic：像素数据
+ * @param {t_bmp_info_hearder} info：图片信息结构体
+ * @return {*}
+ * @author: Enos Ji
+ */
+void fb_draw2(unsigned int x, unsigned int y,  pic_info *info)
+{
+	unsigned char *pdata = info->pdata;	//定义一个指向这个数组的制作
+	unsigned int *p = pfb;
+	unsigned int a = 0;
+	unsigned int cnt;
+	int i, j;
+
+
+	if((info->bpp != 32) && (info->bpp != 24))
+	{
+		fprintf(stderr, "bpp %d is not support\n", info->bpp);
+		return;
+	}
+
+	for(i = y; i < y + info->height; i++)
+	{
+		//当y方向超出之后剩下的部分就不用显示了
+		if(i > HEIGHT)
+		{
+			break;
+		}
+		
+		for(j = x; j < x + info->width; j++)
+		{
+			cnt = WIDTH * i + j;		//当前像素的编号
+			if(j > WIDTH)
+			{
+				a += 3;
+				continue;
+			}
+			
+			//一个像素是包含三个颜色将三个颜色移位或上之后复制给显存
+			*(p + cnt) = ((pdata[a] << 16) | (pdata[a + 1] << 8) | (pdata[a + 2] << 0));
+			
+			a += 3;
 
 		}
 	}

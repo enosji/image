@@ -15,10 +15,10 @@ export AS LD CC CPP AR NM
 export STRIP OBJCOPY OBJDUMP
 
 CFLAGS := -Wall -O2 -g
-CFLAGS += -I $(shell pwd)/include -I/opt/libdecode/include
+CFLAGS += -I $(shell pwd)/include -I/opt/libjpeg/include -I/opt/libpng/include -I/opt/zlib/include
 
 
-LDFLAGS :=    -lpthread -L/opt/libdecode/lib
+LDFLAGS := -lpng -ljpeg -lz -lpthread -L/opt/libjpeg/lib -L/opt/libpng/lib -L/opt/zlib/lib 
 
 export CFLAGS LDFLAGS
 

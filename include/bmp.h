@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-10 15:31:45
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-10 19:32:08
+ * @LastEditTime: 2021-08-11 14:08:58
  * @FilePath: \image\include\bmp.h
  * @Description: bmp解析的头文件
  */
@@ -66,6 +66,6 @@ typedef struct {
 /* 取消地址对齐 */
 #pragma pack ()
 
-int bmp_analyze(pic_info *pPic);
+int display_bmp(char * pathname);
 
 #endif

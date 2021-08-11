@@ -1,1 +1,1 @@
-obj-y += fb.o fb_bmp.o
+obj-y += fb.o fb_bmp.o fb_jpeg.o fb_png.o
