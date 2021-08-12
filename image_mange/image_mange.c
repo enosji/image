@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-11 19:56:31
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-11 21:57:46
+ * @LastEditTime: 2021-08-12 11:11:36
  * @FilePath: \image\image_mange\image_mange.c
  * @Description: 图片文件管理
  */
@@ -12,12 +12,18 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <fcntl.h>
+#include <linux/input.h>
 #include <sys/stat.h>
 
 
 #include <config.h>
 
 #include <image_mange.h>
+
+
+
+
 
 
 image_info_t images[MAX_IMAGE_CNT];
@@ -141,4 +147,95 @@ void show_images(void)
         }
         sleep(3);
     }
+}
+
+static void show_up_image(int i)
+{
+    switch (images[i].type)
+    {
+    case IMAGE_TYPE_BMP:
+        display_bmp(images[i].pathname);
+        break;
+    case IMAGE_TYPE_JPEG:
+        display_jpeg(images[i].pathname);
+        break;
+    case IMAGE_TYPE_PNG:
+        display_png(images[i].pathname);
+        break;
+    default:
+        break;
+    }
+}
+
+/**
+ * @description: 实现通过触摸屏来对图片进行翻页
+ * @param {*}
+ * @return {*}
+ * @author: Enos Ji
+ */
+int ts_updown(void)
+{
+    int i = 0;
+	int fd = -1, ret = -1;
+	struct input_event ev;
+	
+	// 第1步：打开设备文件，触摸屏检测
+	fd = open(DEVICE_TOUCH, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("open");
+		return -1;
+	}
+	debug("image_index = %d\n", image_index);
+	while (1)
+	{
+		// 第2步：读取一个event事件包
+		memset(&ev, 0, sizeof(struct input_event));
+		ret = read(fd, &ev, sizeof(struct input_event));
+		if (ret != sizeof(struct input_event))
+		{
+			perror("read");
+			close(fd);
+			return -1;
+		}
+		
+        /*
+		// 第3步：解析event包，才知道发生了什么样的输入事件
+		debug("type = %hd.\n", ev.type);	
+        debug("code = %hd.\n", ev.code);	
+        debug("value = %d.\n", ev.value);	
+        debug("\n");
+        */
+        if((ev.type == EV_ABS) && (ev.code == ABS_X))
+        {  
+            //确定这个是x坐标
+            if((ev.value < TOUCH_WIDTH) && (ev.value >= 0))
+            {
+                //上翻页
+                i--;
+                if(i < 0)
+                {
+                    i = image_index - 1;
+                }
+                debug("i = %d\n", i);
+            }
+            else if((ev.value > (WIDTH - TOUCH_WIDTH)) && (ev.value <= WIDTH))
+            {
+                //下翻页
+                i++;
+                if(i >= image_index)
+                {
+                    i = 0;
+                }
+                debug("i = %d\n", i);
+            }
+            show_up_image(i);
+        }
+	}
+	 
+	
+	// 第4步：关闭设备
+	close(fd);
+	
+	return 0;
 }

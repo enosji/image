@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-09 15:32:46
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-11 21:56:05
+ * @LastEditTime: 2021-08-12 10:56:46
  * @FilePath: \image\main.c
  * @Description: image_player 主函数
  */
@@ -29,6 +29,7 @@ int main(int argc, char const *argv[])
         return -1;
     }
     scan_image("./image");
+   
 /*
     //bmp 测试程序
     ret = display_bmp("./bmp/1.bmp");
@@ -51,10 +52,13 @@ int main(int argc, char const *argv[])
         fprintf(stderr, "show png error\n");
         return -1;
     }
-*/
+
+    
     while(1)
         show_images();
-
+*/
+    ts_updown();
+    
     fb_close();
 
 

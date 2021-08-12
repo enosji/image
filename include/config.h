@@ -2,7 +2,7 @@
  * @Author: Enos Ji
  * @Date: 2021-08-10 18:40:24
  * @LastEditors: Enos Ji
- * @LastEditTime: 2021-08-11 21:55:30
+ * @LastEditTime: 2021-08-12 10:19:39
  * @FilePath: \image\include\config.h
  * @Description: 公用的头文件
  */
@@ -15,7 +15,8 @@
 
 //规定最多支持的图片数量
 #define MAX_IMAGE_CNT           100
-
+#define DEVICE_TOUCH			"/dev/input/event2"
+#define TOUCH_WIDTH             200         //定义触摩翻页宽度
 
 
 #define DEBUG           //打开调试开关
@@ -58,5 +59,7 @@ int is_png(char *path);
 
 int scan_image(char *path);
 void show_images(void);
+
+int ts_updown(void);
 
 #endif
